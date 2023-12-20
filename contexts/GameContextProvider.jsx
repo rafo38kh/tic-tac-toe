@@ -1,24 +1,26 @@
+"use client";
 import { createContext, useState, useMemo } from "react";
 
-export const TypeOfPlayerContext = createContext({
+export const GameContext = createContext({
   playerType: null,
   setPlayerType: () => {},
+  gameType: null,
+  setGameType: () => {},
 });
 
-export default function TypeOfPlayerContextProvider({ children }) {
+export default function GameContextProvider({ children }) {
   const [playerType, setPlayerType] = useState("X");
+  const [gameType, setGameType] = useState("CPU");
 
   const value = useMemo(
     () => ({
       playerType,
       setPlayerType,
+      gameType,
+      setGameType,
     }),
-    [playerType, setPlayerType]
+    [playerType, setPlayerType, gameType, setGameType]
   );
 
-  return (
-    <TypeOfPlayerContext.Provider value={value}>
-      {children}
-    </TypeOfPlayerContext.Provider>
-  );
+  return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 }

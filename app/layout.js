@@ -1,6 +1,6 @@
 import { Outfit } from "next/font/google";
 import "./globals.css";
-import TypeOfPlayerContextProvider from "@/contexts/GameContextProvider";
+import GameContextProvider from "@/contexts/GameContextProvider";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={outfit.className}>
-        <TypeOfPlayerContextProvider>{children}</TypeOfPlayerContextProvider>
+        <GameContextProvider>{children}</GameContextProvider>
       </body>
     </html>
   );
