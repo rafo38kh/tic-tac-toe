@@ -1,12 +1,10 @@
 "use client";
+import { useContext } from "react";
 import { GameContext } from "@/contexts/GameContextProvider";
-import { useContext, useState } from "react";
 
 export default function Home() {
   const { playerType, setPlayerType, gameType, setGameType } =
     useContext(GameContext);
-
-  console.log(playerType, gameType);
 
   const className = `text-xl ${playerType === "X" ? "bg-yellow" : "bg-blue"}`;
 
