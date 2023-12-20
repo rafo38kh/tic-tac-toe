@@ -1,10 +1,10 @@
 import { Outfit } from "next/font/google";
 import "./globals.css";
+import TypeOfPlayerContextProvider from "@/contexts/GameContextProvider";
 
 const outfit = Outfit({
   subsets: ["latin"],
-  weight: ["500"],
-  variable: "Outfit",
+  weight: ["500", "700"],
 });
 
 export const metadata = {
@@ -15,7 +15,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={outfit.variable}>{children}</body>
+      <body className={outfit.className}>
+        <TypeOfPlayerContextProvider>{children}</TypeOfPlayerContextProvider>
+      </body>
     </html>
   );
 }
