@@ -1,6 +1,9 @@
 "use client";
 import { useState, useEffect, useContext } from "react";
+
 import { GameContext } from "@/contexts/GameContextProvider";
+
+import createWinningCombinationsArrays from "@/app/utils/createWinningCombinationsArrays";
 
 export default function GamePage() {
   const { playerType, setPlayerType, gameType, setGameType } =
@@ -27,27 +30,12 @@ export default function GamePage() {
     setPlayerType((prevPlayerType) => (prevPlayerType === "X" ? "O" : "X"));
   };
 
-  const rows = [];
-  const columns = [];
-  const leftdiagonal = [];
-  const rightdiagonal = [];
-
   useEffect(() => {
-    for (let colIndex = 0; colIndex < gameBoard.length; colIndex++) {
-      for (let rowindex = 0; rowindex < gameBoard.length; rowindex++) {
-        rows.push(gameBoard[rowindex][colIndex]);
-        columns.push(gameBoard[colIndex][rowindex]);
+    const { row, columns, leftDiagonal, rightDiagonal } =
+      createWinningCombinationsArrays(gameBoard);
 
-        if (colIndex === rowindex)
-          leftdiagonal.push(gameBoard[colIndex][rowindex]);
-
-        if (colIndex + rowindex === gameBoard.length - 1)
-          rightdiagonal.push(gameBoard[colIndex][rowindex]);
-      }
-    }
+    console.log(row, columns, leftDiagonal, rightDiagonal);
   }, []);
-
-  console.log(rows, columns, leftdiagonal, rightdiagonal);
 
   return gameBoard.map((row, rowIndex) => (
     <div key={rowIndex} className="flex flex-row gap-4 mb-4">
