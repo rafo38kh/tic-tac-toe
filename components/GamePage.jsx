@@ -4,6 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { GameContext } from "@/contexts/GameContextProvider";
 
 import createWinningCombinationsArrays from "@/app/utils/createWinningCombinationsArrays";
+import splitArrayIntoChunks from "@/app/utils/splitArrayIntoChunks";
 
 export default function GamePage() {
   const { playerType, setPlayerType, gameType, setGameType } =
@@ -31,10 +32,12 @@ export default function GamePage() {
   };
 
   useEffect(() => {
-    const { row, columns, leftDiagonal, rightDiagonal } =
+    const { rows, columns, leftDiagonal, rightDiagonal } =
       createWinningCombinationsArrays(gameBoard);
 
-    console.log(row, columns, leftDiagonal, rightDiagonal);
+    console.log("rowChunks", splitArrayIntoChunks(rows));
+    console.log("columnsChunks", splitArrayIntoChunks(columns));
+    console.log(leftDiagonal, rightDiagonal);
   }, []);
 
   return gameBoard.map((row, rowIndex) => (
