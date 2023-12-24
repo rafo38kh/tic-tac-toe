@@ -5,5 +5,6 @@ export default function splitArrayIntoChunks(array) {
     const chunk = array.slice(i, i + 3);
     chunks.push(chunk);
   }
+
   return chunks;
 }
