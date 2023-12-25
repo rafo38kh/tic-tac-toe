@@ -6,8 +6,8 @@ export default function createWinningCombinationsArrays(arr) {
 
   for (let colIndex = 0; colIndex < arr.length; colIndex++) {
     for (let rowindex = 0; rowindex < arr.length; rowindex++) {
-      rows.push(arr[rowindex][colIndex]);
-      columns.push(arr[colIndex][rowindex]);
+      rows.push(arr[colIndex][rowindex]);
+      columns.push(arr[rowindex][colIndex]);
 
       if (colIndex === rowindex) leftDiagonal.push(arr[colIndex][rowindex]);
 
@@ -15,11 +15,12 @@ export default function createWinningCombinationsArrays(arr) {
         rightDiagonal.push(arr[colIndex][rowindex]);
     }
   }
-
-  return {
-    rows,
-    columns,
+  const algorithm = [
+    ..._.chunk(rows, 3),
+    ..._.chunk(columns, 3),
     leftDiagonal,
     rightDiagonal,
-  };
+  ];
+
+  return algorithm;
 }
