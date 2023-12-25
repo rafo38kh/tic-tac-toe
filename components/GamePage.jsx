@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useContext } from "react";
-
 import * as _ from "lodash";
 
 import { GameContext } from "@/contexts/GameContextProvider";
@@ -16,6 +15,11 @@ export default function GamePage() {
   const [crossIndex, setCrossIndex] = useState([]);
   const [circleIndex, setCircleIndex] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [score, setScore] = useState({
+    X: 0,
+    O: 0,
+    ties: 0,
+  });
 
   const initialGameBoard = [
     [1, 2, 3],
@@ -90,6 +94,20 @@ export default function GamePage() {
       <button type="button" onClick={() => setIsModalOpen(true)}>
         reset
       </button>
+      <div className="flex gap-4">
+        <div className="flex flex-col items-center">
+          <span>X {playerType === "X" ? "(YOU)" : "(CPU)"}</span>
+          <span>{score.X}</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span>TIES</span>
+          <span>{score.ties}</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span>O {playerType !== "X" ? "(YOU)" : "(CPU)"}</span>
+          <span>{score.O}</span>
+        </div>
+      </div>
 
       {isModalOpen && <Modal setIsModalOpen={setIsModalOpen} />}
     </div>
