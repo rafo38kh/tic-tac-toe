@@ -46,16 +46,9 @@ export default function GamePage() {
     setPlayerType((prevPlayerType) => (prevPlayerType === "X" ? "O" : "X"));
   };
 
-  const { rows, columns, leftDiagonal, rightDiagonal } =
-    createWinningCombinationsArrays(initialGameBoard);
+  const algorithm = createWinningCombinationsArrays(initialGameBoard);
 
   useEffect(() => {
-    const algorithm = [
-      ..._.chunk(rows, 3),
-      ..._.chunk(columns, 3),
-      leftDiagonal,
-      rightDiagonal,
-    ];
     const crossWin = checkSimilarityOfArrays(crossIndex, algorithm);
     console.log(crossWin);
 
@@ -66,12 +59,6 @@ export default function GamePage() {
   }, [crossIndex]);
 
   useEffect(() => {
-    const algorithm = [
-      ..._.chunk(rows, 3),
-      ..._.chunk(columns, 3),
-      leftDiagonal,
-      rightDiagonal,
-    ];
     const circleWin = checkSimilarityOfArrays(circleIndex, algorithm);
 
     console.log(circleWin);

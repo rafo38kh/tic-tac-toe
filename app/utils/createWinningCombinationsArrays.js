@@ -15,11 +15,12 @@ export default function createWinningCombinationsArrays(arr) {
         rightDiagonal.push(arr[colIndex][rowindex]);
     }
   }
-
-  return {
-    rows,
-    columns,
+  const algorithm = [
+    ..._.chunk(rows, 3),
+    ..._.chunk(columns, 3),
     leftDiagonal,
     rightDiagonal,
-  };
+  ];
+
+  return algorithm;
 }
