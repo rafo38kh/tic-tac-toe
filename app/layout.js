@@ -15,8 +15,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${outfit.className} bg-darkNavy`}>
-        <GameContextProvider>{children}</GameContextProvider>
+      <body
+        className={`${outfit.className} bg-darkNavy text-darkSilver w-full`}
+      >
+        <GameContextProvider>
+          <main className="flex items-center justify-center w-full min-h-screen ">
+            {children}
+          </main>
+        </GameContextProvider>
       </body>
     </html>
   );
