@@ -1,4 +1,22 @@
-import isEqual from "lodash/isEqual";
+// }
+import { isEqual } from "lodash";
+
+function chunkArray(array, chunkSize) {
+  function helper(current, index) {
+    if (current.length === chunkSize) {
+      combinations.push([...current]);
+      return;
+    }
+
+    for (let i = index; i < array.length; i++) {
+      helper([...current, array[i]], i + 1);
+    }
+  }
+
+  const combinations = [];
+  helper([], 0);
+  return combinations;
+}
 
 export default function checkSimilarityOfArrays(
   inputedArray,
@@ -6,9 +24,17 @@ export default function checkSimilarityOfArrays(
 ) {
   const sortedInputedArray = inputedArray.slice().sort();
 
-  const finalIndex = combinationsArray.find((subarray) =>
-    isEqual(sortedInputedArray, subarray)
-  );
+  const inputedArrayCombinations = chunkArray(sortedInputedArray, 3);
 
-  return finalIndex;
+  for (const subarray of inputedArrayCombinations) {
+    const foundArray = combinationsArray.find((combination) =>
+      isEqual(combination, subarray)
+    );
+
+    if (foundArray !== undefined) {
+      return true;
+    }
+  }
+
+  return false;
 }

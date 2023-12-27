@@ -1,5 +1,8 @@
 "use client";
+
 import { useContext } from "react";
+import Link from "next/link";
+
 import { GameContext } from "@/contexts/GameContextProvider";
 
 export default function Home() {
@@ -20,9 +23,9 @@ export default function Home() {
       </div>
       <div className="flex flex-col">
         <button onClick={() => setGameType("CPU")}>NEW GAME VS CPU</button>
-        <button onClick={() => setGameType("player")}>
+        <Link href="/game" onClick={() => setGameType("player")}>
           NEW GAME VS PLAYER
-        </button>
+        </Link>
       </div>
     </>
   );

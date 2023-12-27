@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useContext } from "react";
-
 import * as _ from "lodash";
 
 import { GameContext } from "@/contexts/GameContextProvider";
@@ -10,11 +9,22 @@ import checkSimilarityOfArrays from "@/app/utils/checkSimilarityOfArrays";
 import Modal from "./Modal";
 
 export default function GamePage() {
-  const { playerType, setPlayerType, gameType, setGameType, setWinner } =
-    useContext(GameContext);
+  const {
+    winner,
+    setWinner,
+    playerType,
+    setPlayerType,
+    gameBoard,
+    setGameBoard,
+    crossIndex,
+    setCrossIndex,
+    circleIndex,
+    score,
+    setScore,
+    setCircleIndex,
+    setIsResetting,
+  } = useContext(GameContext);
 
-  const [crossIndex, setCrossIndex] = useState([]);
-  const [circleIndex, setCircleIndex] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const initialGameBoard = [
@@ -22,7 +32,6 @@ export default function GamePage() {
     [4, 5, 6],
     [7, 8, 9],
   ];
-  const [gameBoard, setGameBoard] = useState(initialGameBoard);
 
   const handleGameBoardClick = (cell) => {
     const row = Math.floor((cell - 1) / 3);
@@ -50,23 +59,40 @@ export default function GamePage() {
 
   useEffect(() => {
     const crossWin = checkSimilarityOfArrays(crossIndex, algorithm);
-    console.log(crossWin);
-
-    if (crossWin) {
-      setWinner("X");
-      setIsModalOpen(true);
-    }
-  }, [crossIndex]);
-
-  useEffect(() => {
     const circleWin = checkSimilarityOfArrays(circleIndex, algorithm);
 
-    console.log(circleWin);
-    if (circleWin) {
+    const isTie = gameBoard.every((row) =>
+      row.every((cell) => typeof cell === "string")
+    );
+
+    if (crossWin && !circleWin) {
+      setWinner("X");
+      setIsModalOpen(true);
+    } else if (circleWin && !crossWin) {
       setWinner("O");
       setIsModalOpen(true);
+    } else if (isTie) {
+      setWinner("TIES");
+      setIsModalOpen(true);
+    } else {
+      setIsModalOpen(false);
     }
-  }, [circleIndex]);
+  }, [gameBoard]);
+
+  useEffect(() => {
+    if (winner === "X") {
+      setScore((prevState) => ({ ...prevState, X: prevState.X + 1 }));
+    } else if (winner === "O") {
+      setScore((prevState) => ({ ...prevState, O: prevState.O + 1 }));
+    } else if (winner === "TIES") {
+      setScore((prevState) => ({ ...prevState, ties: prevState.ties + 1 }));
+    }
+  }, [winner]);
+
+  const resetModalOpen = () => {
+    setIsResetting(true);
+    setIsModalOpen(true);
+  };
 
   return (
     <div>
@@ -75,6 +101,8 @@ export default function GamePage() {
           {row.map((cell, columnIndex) => (
             <div key={columnIndex} className="flex gap-4">
               <button
+                type="button"
+                disabled={typeof cell === "string"}
                 onClick={() => {
                   handleGameBoardClick(cell);
                 }}
@@ -87,9 +115,26 @@ export default function GamePage() {
         </div>
       ))}
 
-      <button type="button" onClick={() => setIsModalOpen(true)}>
+      <button type="button" onClick={() => resetModalOpen()}>
         reset
       </button>
+
+      <span>{playerType} turn</span>
+
+      <div className="flex gap-4">
+        <div className="flex flex-col items-center">
+          <span>X {playerType === "X" ? "(YOU)" : "(CPU)"}</span>
+          <span>{score.X}</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span>TIES</span>
+          <span>{score.ties}</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span>O {playerType !== "X" ? "(YOU)" : "(CPU)"}</span>
+          <span>{score.O}</span>
+        </div>
+      </div>
 
       {isModalOpen && <Modal setIsModalOpen={setIsModalOpen} />}
     </div>
