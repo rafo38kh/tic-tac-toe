@@ -1,4 +1,3 @@
-// }
 import { isEqual } from "lodash";
 
 function chunkArray(array, chunkSize) {
@@ -32,7 +31,7 @@ export default function checkSimilarityOfArrays(
     );
 
     if (foundArray !== undefined) {
-      return true;
+      return foundArray;
     }
   }
 
