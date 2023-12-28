@@ -7,6 +7,8 @@ import { GameContext } from "@/contexts/GameContextProvider";
 import createWinningCombinationsArrays from "@/app/utils/createWinningCombinationsArrays";
 import checkSimilarityOfArrays from "@/app/utils/checkSimilarityOfArrays";
 import Modal from "./Modal";
+import TopElements from "./TopElements";
+import GameScores from "./GameScores";
 
 export default function GamePage() {
   const {
@@ -19,10 +21,11 @@ export default function GamePage() {
     crossIndex,
     setCrossIndex,
     circleIndex,
-    score,
     setScore,
     setCircleIndex,
-    setIsResetting,
+    winnerIndices,
+    setWinnerIndices,
+    gamer,
   } = useContext(GameContext);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -55,6 +58,11 @@ export default function GamePage() {
     setPlayerType((prevPlayerType) => (prevPlayerType === "X" ? "O" : "X"));
   };
 
+  const isWinningCell = (rowIndex, columnIndex) => {
+    const cellIndex = rowIndex * 3 + columnIndex + 1;
+    return winnerIndices.includes(cellIndex);
+  };
+
   const algorithm = createWinningCombinationsArrays(initialGameBoard);
 
   useEffect(() => {
@@ -68,9 +76,11 @@ export default function GamePage() {
     if (crossWin && !circleWin) {
       setWinner("X");
       setIsModalOpen(true);
+      setWinnerIndices(crossWin);
     } else if (circleWin && !crossWin) {
       setWinner("O");
       setIsModalOpen(true);
+      setWinnerIndices(circleWin);
     } else if (isTie) {
       setWinner("TIES");
       setIsModalOpen(true);
@@ -89,53 +99,68 @@ export default function GamePage() {
     }
   }, [winner]);
 
-  const resetModalOpen = () => {
-    setIsResetting(true);
-    setIsModalOpen(true);
-  };
-
   return (
-    <div>
+    <div className="w-full p-6 max-w-[28.75rem] min-h-screen">
+      <TopElements setIsModalOpen={setIsModalOpen} />
       {gameBoard.map((row, rowIndex) => (
-        <div key={rowIndex} className="flex flex-row gap-4 mb-4">
+        <div key={rowIndex} className="flex justify-between mb-6">
           {row.map((cell, columnIndex) => (
-            <div key={columnIndex} className="flex gap-4">
+            <div key={columnIndex} className="">
               <button
                 type="button"
                 disabled={typeof cell === "string"}
                 onClick={() => {
                   handleGameBoardClick(cell);
                 }}
-                className="p-4 bg-black text-white h-8 w-8 text-center"
+                className={`rounded-lg p-4 w-24 h-24 text-white  text-center shadow-[0px_-8px_0px_0px_#10212A_inset] ${
+                  isWinningCell(rowIndex, columnIndex)
+                    ? winner === "X"
+                      ? "bg-darkBlue"
+                      : "bg-darkYellow"
+                    : "bg-semiDarkNavy"
+                }`}
               >
-                {typeof cell === "number" ? "" : cell}
+                {typeof cell === "number" ? (
+                  ""
+                ) : cell === "X" ? (
+                  <svg
+                    width="64"
+                    height="64"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z"
+                      fill={
+                        isWinningCell(rowIndex, columnIndex)
+                          ? "#1A2A33"
+                          : "#31C3BD"
+                      }
+                      fillRule="evenodd"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    width="64"
+                    height="64"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z"
+                      fill={
+                        isWinningCell(rowIndex, columnIndex)
+                          ? "#1A2A33"
+                          : "#F2B137"
+                      }
+                    />
+                  </svg>
+                )}
               </button>
             </div>
           ))}
         </div>
       ))}
 
-      <button type="button" onClick={() => resetModalOpen()}>
-        reset
-      </button>
-
-      <span>{playerType} turn</span>
-
-      <div className="flex gap-4">
-        <div className="flex flex-col items-center">
-          <span>X {playerType === "X" ? "(YOU)" : "(CPU)"}</span>
-          <span>{score.X}</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <span>TIES</span>
-          <span>{score.ties}</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <span>O {playerType !== "X" ? "(YOU)" : "(CPU)"}</span>
-          <span>{score.O}</span>
-        </div>
-      </div>
-
+      <GameScores />
       {isModalOpen && <Modal setIsModalOpen={setIsModalOpen} />}
     </div>
   );
