@@ -8,41 +8,23 @@ import { GameContext } from "@/contexts/GameContextProvider";
 export default function Modal({ setIsModalOpen }) {
   const {
     winner,
-    setWinner,
-    setGameBoard,
-    setCrossIndex,
-    setCircleIndex,
     setScore,
     isResetting,
     setIsResetting,
     setWinnerIndices,
+    resetGame,
   } = useContext(GameContext);
-
-  const initialGameBoard = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-  ];
-
-  const handleNextRoundClick = () => {
-    setWinner("");
-    setCrossIndex([]);
-    setCircleIndex([]);
-    setWinnerIndices([]);
-    setIsModalOpen(false);
-    setGameBoard(initialGameBoard);
-  };
 
   return createPortal(
     <div className="h-screen w-full fixed inset-0 bg-black/50 flex flex-col justify-center items-center ">
       <div className="bg-semiDarkNavy/50 backdrop-blur-md w-full flex flex-col justify-center items-center gap-6 px-8 py-14 ">
         {isResetting ? (
-          <span className="text-darkSilver text-2xl font-bold">
+          <span className="text-darkSilver text-2xl md:text-4xl font-bold">
             Restart Game?{" "}
           </span>
         ) : (
           <>
-            <span className="text-sm">OH NO, YOU LOST…</span>
+            <span className="text-sm md:text-4xl">OH NO, YOU LOST…</span>
             <span
               className={`text-darkSilver text-2xl font-bold flex justify-center items-center
               ${winner === "X" ? "text-darkBlue" : null}
@@ -99,8 +81,8 @@ export default function Modal({ setIsModalOpen }) {
               className="text-base text-darkNavy rounded-lg uppercase font-bold bg-darkYellow p-4 shadow-[0px_-4px_0px_0px_#CC8B13_inset]"
               type="button"
               onClick={() => {
-                handleNextRoundClick();
                 setIsResetting(false);
+                resetGame(() => setIsModalOpen(false));
               }}
             >
               yes, restart
@@ -110,15 +92,15 @@ export default function Modal({ setIsModalOpen }) {
           <div className="flex gap-4">
             <Link
               className="text-base text-darkNavy rounded-lg uppercase font-bold bg-darkSilver p-4 shadow-[0px_-4px_0px_0px_#6B8997_inset]"
-              href="../"
+              href="/"
               type="button"
               onClick={() => {
-                handleNextRoundClick();
                 setScore({
                   X: 0,
                   O: 0,
                   ties: 0,
                 });
+                resetGame(() => setIsModalOpen(false));
               }}
             >
               QUIT
@@ -126,7 +108,7 @@ export default function Modal({ setIsModalOpen }) {
             <button
               className="text-base text-darkNavy rounded-lg uppercase font-bold bg-darkYellow p-4 shadow-[0px_-4px_0px_0px_#CC8B13_inset]"
               type="button"
-              onClick={handleNextRoundClick}
+              onClick={() => resetGame(() => setIsModalOpen())}
             >
               NEXT ROUND
             </button>
