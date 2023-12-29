@@ -22,6 +22,7 @@ export const GameContext = createContext({
   setWinnerIndices: () => {},
   gamer: null,
   setGamer: () => {},
+  resetGame: () => {},
 });
 
 export default function GameContextProvider({ children }) {
@@ -46,6 +47,15 @@ export default function GameContextProvider({ children }) {
     ties: 0,
   });
 
+  const resetGame = (setIsModalOpen) => {
+    setWinner("");
+    setCrossIndex([]);
+    setCircleIndex([]);
+    setWinnerIndices([]);
+    setIsModalOpen();
+    setGameBoard(initialGameBoard);
+  };
+
   const value = useMemo(
     () => ({
       playerType,
@@ -68,6 +78,7 @@ export default function GameContextProvider({ children }) {
       setWinnerIndices,
       gamer,
       setGamer,
+      resetGame,
     }),
     [
       playerType,
@@ -90,6 +101,7 @@ export default function GameContextProvider({ children }) {
       setWinnerIndices,
       gamer,
       setGamer,
+      resetGame,
     ]
   );
 

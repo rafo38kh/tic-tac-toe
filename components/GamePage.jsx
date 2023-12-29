@@ -13,20 +13,19 @@ import GameScores from "./GameScores";
 export default function GamePage() {
   const {
     winner,
-    setWinner,
-    playerType,
-    setPlayerType,
-    gameBoard,
-    setGameBoard,
-    crossIndex,
-    setCrossIndex,
-    circleIndex,
     setScore,
-    setCircleIndex,
-    winnerIndices,
-    setWinnerIndices,
-    gamer,
     gameType,
+    setWinner,
+    gameBoard,
+    playerType,
+    crossIndex,
+    circleIndex,
+    setGameBoard,
+    setPlayerType,
+    setCrossIndex,
+    winnerIndices,
+    setCircleIndex,
+    setWinnerIndices,
   } = useContext(GameContext);
 
   const makeComputerMove = () => {
@@ -65,10 +64,12 @@ export default function GamePage() {
   useEffect(() => {
     let timeoutId;
 
-    if (!winner) {
-      timeoutId = setTimeout(() => {
-        makeComputerMove();
-      }, 500);
+    if (gameType === "CPU") {
+      if (!winner) {
+        timeoutId = setTimeout(() => {
+          makeComputerMove();
+        }, 500);
+      }
     }
 
     return () => {

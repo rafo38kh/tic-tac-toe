@@ -4,8 +4,14 @@ import Link from "next/link";
 import { GameContext } from "@/contexts/GameContextProvider";
 
 export default function TopElements({ setIsModalOpen }) {
-  const { playerType, setIsResetting, setWinnerIndices, setGameType } =
-    useContext(GameContext);
+  const {
+    setScore,
+    resetGame,
+    playerType,
+    setGameType,
+    setIsResetting,
+    setWinnerIndices,
+  } = useContext(GameContext);
 
   const resetModalOpen = () => {
     setIsResetting(true);
@@ -15,7 +21,18 @@ export default function TopElements({ setIsModalOpen }) {
 
   return (
     <div className="flex flex-row justify-between items-center  mb-16 md:mb-5">
-      <Link href="../" onClick={() => setGameType("VS")}>
+      <Link
+        href="/"
+        onClick={() => {
+          setGameType("VS");
+          resetGame(() => setIsModalOpen(false));
+          setScore({
+            X: 0,
+            O: 0,
+            ties: 0,
+          });
+        }}
+      >
         <svg
           className="scale-75"
           width="72"

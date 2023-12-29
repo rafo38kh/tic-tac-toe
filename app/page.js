@@ -75,12 +75,13 @@ export default function Home() {
         <span className="text-sm">REMEMBER : X GOES FIRST</span>
       </div>
       <div className="flex flex-col w-full">
-        <button
-          className=" bg-darkYellow text-darkNavy text-base font-bold p-3 rounded-lg mb-4 shadow-[0px_-8px_0px_0px_#CC8B13_inset]"
+        <Link
+          className=" bg-darkYellow text-darkNavy text-base font-bold p-3 rounded-lg text-center mb-4 shadow-[0px_-8px_0px_0px_#CC8B13_inset]"
+          href="/game"
           onClick={() => setGameType("CPU")}
         >
           NEW GAME VS CPU
-        </button>
+        </Link>
         <Link
           className=" bg-darkBlue text-darkNavy text-base font-bold p-3 rounded-lg text-center shadow-[0px_-8px_0px_0px_#118C87_inset]"
           href="/game"
