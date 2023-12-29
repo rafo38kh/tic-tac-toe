@@ -4,7 +4,7 @@ import Link from "next/link";
 import { GameContext } from "@/contexts/GameContextProvider";
 
 export default function TopElements({ setIsModalOpen }) {
-  const { playerType, setIsResetting, setWinnerIndices } =
+  const { playerType, setIsResetting, setWinnerIndices, setGameType } =
     useContext(GameContext);
 
   const resetModalOpen = () => {
@@ -14,9 +14,14 @@ export default function TopElements({ setIsModalOpen }) {
   };
 
   return (
-    <div className="flex flex-row justify-between items-center  mb-16">
-      <Link href="../">
-        <svg width="72" height="32" xmlns="http://www.w3.org/2000/svg">
+    <div className="flex flex-row justify-between items-center  mb-16 md:mb-5">
+      <Link href="../" onClick={() => setGameType("VS")}>
+        <svg
+          className="scale-75"
+          width="72"
+          height="32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <g fill="none" fillRule="evenodd">
             <path
               d="M8.562 1.634 16 9.073l7.438-7.439a3 3 0 0 1 4.243 0l2.685 2.685a3 3 0 0 1 0 4.243L22.927 16l7.439 7.438a3 3 0 0 1 0 4.243l-2.685 2.685a3 3 0 0 1-4.243 0L16 22.927l-7.438 7.439a3 3 0 0 1-4.243 0L1.634 27.68a3 3 0 0 1 0-4.243L9.073 16 1.634 8.562a3 3 0 0 1 0-4.243L4.32 1.634a3 3 0 0 1 4.243 0Z"
@@ -30,9 +35,10 @@ export default function TopElements({ setIsModalOpen }) {
           </g>
         </svg>
       </Link>
-      <span className="text-sm font-bold uppercase flex flex-row justify-center items-center gap-2 p-2 bg-semiDarkNavy rounded-lg shadow-[0px_-4px_0px_0px_#10212A_inset]">
+      <span className="text-sm md:text-base font-bold uppercase flex flex-row justify-center items-center py-1 px-4 w-24 md:w-28  bg-semiDarkNavy rounded-lg shadow-[0px_-4px_0px_0px_#10212A_inset]">
         {playerType === "X" ? (
           <svg
+            className="scale-50"
             xmlns="http://www.w3.org/2000/svg"
             width="32"
             height="32"
@@ -47,6 +53,7 @@ export default function TopElements({ setIsModalOpen }) {
           </svg>
         ) : (
           <svg
+            className="scale-50"
             xmlns="http://www.w3.org/2000/svg"
             width="32"
             height="32"
@@ -60,11 +67,11 @@ export default function TopElements({ setIsModalOpen }) {
               fill="#A8BFC9"
             />
           </svg>
-        )}{" "}
+        )}
         turn
       </span>
       <button
-        className="bg-lightSilver rounded-lg p-2 shadow-[0px_-4px_0px_0px_#A8BFC9_inset]"
+        className="bg-lightSilver rounded-lg p-2 ml-9 shadow-[0px_-4px_0px_0px_#A8BFC9_inset]"
         type="button"
         onClick={() => resetModalOpen()}
       >

@@ -26,7 +26,63 @@ export default function GamePage() {
     winnerIndices,
     setWinnerIndices,
     gamer,
+    gameType,
   } = useContext(GameContext);
+
+  const makeComputerMove = () => {
+    if (playerType === "O" && !winner) {
+      const emptyCells = gameBoard
+        .flat()
+        .filter((cell) => typeof cell === "number");
+
+      if (emptyCells.length > 0) {
+        const randomIndex = Math.floor(Math.random() * emptyCells.length);
+        const chosenCell = emptyCells[randomIndex];
+
+        const row = Math.floor((chosenCell - 1) / 3);
+        const column = (chosenCell - 1) % 3;
+
+        if (playerType === "X") {
+          setCrossIndex((prevState) => [
+            ...prevState,
+            initialGameBoard[row][column],
+          ]);
+        } else {
+          setCircleIndex((prevState) => [
+            ...prevState,
+            initialGameBoard[row][column],
+          ]);
+        }
+
+        const newGameBoard = [...gameBoard];
+        newGameBoard[row][column] = playerType;
+        setGameBoard(newGameBoard);
+        setPlayerType("X");
+      }
+    }
+  };
+
+  useEffect(() => {
+    let timeoutId;
+
+    if (!winner) {
+      timeoutId = setTimeout(() => {
+        makeComputerMove();
+      }, 500);
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [
+    playerType,
+    winner,
+    gameBoard,
+    crossIndex,
+    circleIndex,
+    winnerIndices,
+    makeComputerMove,
+  ]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -77,13 +133,16 @@ export default function GamePage() {
       setWinner("X");
       setIsModalOpen(true);
       setWinnerIndices(crossWin);
+      setPlayerType("X");
     } else if (circleWin && !crossWin) {
       setWinner("O");
       setIsModalOpen(true);
       setWinnerIndices(circleWin);
+      setPlayerType("X");
     } else if (isTie) {
       setWinner("TIES");
       setIsModalOpen(true);
+      setPlayerType("X");
     } else {
       setIsModalOpen(false);
     }
@@ -100,10 +159,10 @@ export default function GamePage() {
   }, [winner]);
 
   return (
-    <div className="w-full p-6 max-w-[28.75rem] min-h-screen">
+    <div className="w-full p-6 max-w-[28.75rem] min-h-screen md:flex md:flex-col md:justify-center">
       <TopElements setIsModalOpen={setIsModalOpen} />
       {gameBoard.map((row, rowIndex) => (
-        <div key={rowIndex} className="flex justify-between mb-6">
+        <div key={rowIndex} className="flex justify-between mb-5">
           {row.map((cell, columnIndex) => (
             <div key={columnIndex} className="">
               <button
@@ -112,7 +171,7 @@ export default function GamePage() {
                 onClick={() => {
                   handleGameBoardClick(cell);
                 }}
-                className={`rounded-lg p-4 w-24 h-24 text-white  text-center shadow-[0px_-8px_0px_0px_#10212A_inset] ${
+                className={`rounded-lg p-4 w-24 h-24  text-white  text-center shadow-[0px_-8px_0px_0px_#10212A_inset] md:w-28 md:h-28 flex justify-center items-center ${
                   isWinningCell(rowIndex, columnIndex)
                     ? winner === "X"
                       ? "bg-darkBlue"
