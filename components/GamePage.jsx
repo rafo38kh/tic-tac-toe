@@ -28,6 +28,8 @@ export default function GamePage() {
     setWinnerIndices,
   } = useContext(GameContext);
 
+  const [isDisabled, setIsDisabled] = useState(false);
+
   const makeComputerMove = () => {
     if (playerType === "O" && !winner) {
       const emptyCells = gameBoard
@@ -59,7 +61,10 @@ export default function GamePage() {
         setPlayerType("X");
       }
     }
+    setIsDisabled(false);
   };
+
+  console.log(isDisabled);
 
   useEffect(() => {
     let timeoutId;
@@ -113,6 +118,7 @@ export default function GamePage() {
     newGameBoard[row][column] = playerType;
     setGameBoard(newGameBoard);
     setPlayerType((prevPlayerType) => (prevPlayerType === "X" ? "O" : "X"));
+    setIsDisabled(true);
   };
 
   const isWinningCell = (rowIndex, columnIndex) => {
@@ -168,7 +174,7 @@ export default function GamePage() {
             <div key={columnIndex} className="">
               <button
                 type="button"
-                disabled={typeof cell === "string"}
+                disabled={typeof cell === "string" || isDisabled}
                 onClick={() => {
                   handleGameBoardClick(cell);
                 }}
@@ -178,7 +184,7 @@ export default function GamePage() {
                       ? "bg-darkBlue"
                       : "bg-darkYellow"
                     : "bg-semiDarkNavy"
-                }`}
+                } `}
               >
                 {typeof cell === "number" ? (
                   ""

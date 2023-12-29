@@ -24,16 +24,19 @@ export default function Modal({ setIsModalOpen }) {
           </span>
         ) : (
           <>
-            <span className="text-sm md:text-4xl">OH NO, YOU LOST…</span>
+            {winner === "X" || winner === "O" ? (
+              <span className="text-sm ">OH NO, YOU LOST…</span>
+            ) : null}
+
             <span
-              className={`text-darkSilver text-2xl font-bold flex justify-center items-center
+              className={` text-2xl md:text-4xl font-bold flex justify-center items-center gap-4
               ${winner === "X" ? "text-darkBlue" : null}
               ${winner === "O" ? "text-darkYellow" : null}
               ${winner === "TIES" ? "text-darkSilver" : null}`}
             >
               {winner === "X" && (
                 <svg
-                  className="scale-50"
+                  className="scale-50 md:scale-100"
                   width="64"
                   height="64"
                   xmlns="http://www.w3.org/2000/svg"
