@@ -67,8 +67,6 @@ export default function GamePage() {
     }
   };
 
-  console.log(isDisabled);
-
   useEffect(() => {
     let timeoutId;
 
