@@ -61,7 +61,10 @@ export default function GamePage() {
         setPlayerType("X");
       }
     }
-    setIsDisabled(false);
+
+    if (gameType === "CPU") {
+      setIsDisabled(false);
+    }
   };
 
   console.log(isDisabled);
@@ -118,7 +121,10 @@ export default function GamePage() {
     newGameBoard[row][column] = playerType;
     setGameBoard(newGameBoard);
     setPlayerType((prevPlayerType) => (prevPlayerType === "X" ? "O" : "X"));
-    setIsDisabled(true);
+
+    if (gameType === "CPU") {
+      setIsDisabled(true);
+    }
   };
 
   const isWinningCell = (rowIndex, columnIndex) => {
