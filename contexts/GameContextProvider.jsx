@@ -48,7 +48,9 @@ export default function GameContextProvider({ children }) {
   });
 
   const resetGame = (setIsModalOpen) => {
+    setGamer("X");
     setWinner("");
+    setPlayerType("X");
     setCrossIndex([]);
     setCircleIndex([]);
     setWinnerIndices([]);

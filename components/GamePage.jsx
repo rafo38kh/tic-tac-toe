@@ -12,6 +12,7 @@ import GameScores from "./GameScores";
 
 export default function GamePage() {
   const {
+    gamer,
     winner,
     setScore,
     gameType,
@@ -58,7 +59,7 @@ export default function GamePage() {
         const newGameBoard = [...gameBoard];
         newGameBoard[row][column] = playerType;
         setGameBoard(newGameBoard);
-        setPlayerType("X");
+        setPlayerType((prevPlayerType) => (prevPlayerType === "X" ? "O" : "X"));
       }
     }
 
@@ -71,11 +72,9 @@ export default function GamePage() {
     let timeoutId;
 
     if (gameType === "CPU") {
-      if (!winner) {
-        timeoutId = setTimeout(() => {
-          makeComputerMove();
-        }, 500);
-      }
+      timeoutId = setTimeout(() => {
+        makeComputerMove();
+      }, 500);
     }
 
     return () => {

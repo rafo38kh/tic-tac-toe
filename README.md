@@ -1,6 +1,6 @@
-# Frontend Mentor - {NAME} Solution
+# Frontend Mentor - Tic Tac Toe Solution
 
-This is a solution to the [{NAME} Challenge on Frontend Mentor]({LINK})
+This is a solution to the [Tic Tac Toe Challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/tic-tac-toe-game-Re7ZF_E2v)
 
 ## Table of contents
 
@@ -16,7 +16,11 @@ This is a solution to the [{NAME} Challenge on Frontend Mentor]({LINK})
 
 ### The challenge
 
-- {CHALLANGE}
+- View the optimal layout for the game depending on their device's screen size
+- See hover states for all interactive elements on the page
+- Play the game either solo vs the computer or multiplayer against another person
+- **Bonus 1**: Save the game state in the browser so that it’s preserved if the player refreshes their browser
+- **Bonus 2**: Instead of having the computer randomly make their moves, try making it clever so it’s proactive in blocking your moves and trying to win
 
 ### Screenshot
 
@@ -24,17 +28,15 @@ This is a solution to the [{NAME} Challenge on Frontend Mentor]({LINK})
 
 ### Links
 
-- Solution URL: []()
+- Solution URL: [https://github.com/rafo38kh/tic-tac-toe](https://github.com/rafo38kh/tic-tac-toe)
 - Live Site URL: [https://tic-tac-toe-coral-iota.vercel.app/](https://tic-tac-toe-coral-iota.vercel.app/)
 
 ## My process
 
 ### Built with
 
-- Semantic HTML5 markup
-- SCSS custom properties
-- CSS Flexbox
-- Mobile-first workflow
+- NextJS
+- Tailwind
 
 ## Author
 
